@@ -137,16 +137,25 @@
     return typeof u === "string" && /^https:\/\//.test(u) ? u : null;
   }
 
+  function mdw(k) {
+    return `${md(k)}（${HOLIDAYS.has(k) ? wdOf(k) + "・祝" : wdOf(k)}）`;
+  }
+
+  // 「いつ」の表示：日付 → 時間 → 補足 の順
   function whenText(ev, groupKey) {
     const parts = [];
-    if (!groupKey) {
-      if (ev.dates && ev.dates.length) parts.push(ev.dates.map(md).join("・"));
-      else parts.push(`${md(ev.start)}〜${md(ev.end)}`);
-    } else if (ev.dates && ev.dates.length > 1) {
-      parts.push(`ほかに ${ev.dates.filter((d) => d !== groupKey).map(md).join("・")} も開催`);
+    if (groupKey) {
+      parts.push(mdw(groupKey));
+    } else if (ev.dates && ev.dates.length) {
+      parts.push(ev.dates.map(mdw).join("・"));
+    } else {
+      parts.push(`${mdw(ev.start)}〜${mdw(ev.end)}`);
+    }
+    if (ev.time) parts.push(ev.time);
+    if (groupKey && ev.dates && ev.dates.length > 1) {
+      parts.push(`（ほかに ${ev.dates.filter((d) => d !== groupKey).map(md).join("・")} も開催）`);
     }
     if (ev.dateNote) parts.push(ev.dateNote);
-    if (ev.time) parts.unshift(ev.time);
     return parts.join("　");
   }
 

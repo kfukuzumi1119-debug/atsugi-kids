@@ -161,14 +161,13 @@ h1 {
   border-bottom: 1px solid var(--line);
 }
 .filters.open { position: static; }
-.bar { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+.bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
 .seg {
   display: inline-flex;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface);
   padding: 3px;
-  flex-wrap: wrap;
 }
 .seg button {
   border: 0;
@@ -179,6 +178,7 @@ h1 {
   padding: 5px 12px;
   border-radius: 999px;
   cursor: pointer;
+  white-space: nowrap;
 }
 .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
 .toggle {
@@ -374,7 +374,14 @@ footer.site-footer nav { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-b
   .panel[hidden] { display: grid; }
   .panel { padding-top: 14px; gap: 14px; }
   .row-label { width: 100%; font-weight: 700; }
-  .seg { background: var(--bg); }
+  .bar { display: block; }
+  .seg {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    background: var(--bg);
+  }
+  .seg button { padding: 6px 0; }
 
   main { padding-top: 0; }
   .count { margin-top: 0; }
