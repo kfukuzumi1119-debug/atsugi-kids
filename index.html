@@ -33,6 +33,14 @@
     </ul>
   </nav>
 
+  <figure class="hero" id="hero">
+    <img id="hero-img" alt="" width="1200" height="525">
+    <figcaption>
+      <span class="hero-place" id="hero-place"></span>
+      <span class="hero-credit" id="hero-credit"></span>
+    </figcaption>
+  </figure>
+
   <header class="top">
     <p class="eyebrow">神奈川県央｜厚木・海老名・座間・綾瀬・大和・相模原・伊勢原・愛川</p>
     <h1>子連れで行ける週末イベント</h1>
@@ -40,6 +48,7 @@
     <p class="meta" id="meta">イベントを読み込んでいます…</p>
   </header>
 
+  <div class="layout">
   <div class="filters" id="filters" role="search">
     <div class="bar">
       <div class="seg" role="group" aria-label="期間">
@@ -76,12 +85,15 @@
     </div>
   </div>
 
-  <main id="list" aria-live="polite">
-    <noscript><div class="notice">イベント一覧を表示するには JavaScript を有効にしてください。</div></noscript>
-  </main>
+  <div class="content">
+    <main id="list" aria-live="polite">
+      <noscript><div class="notice">イベント一覧を表示するには JavaScript を有効にしてください。</div></noscript>
+    </main>
 
-  <!-- 広告枠：AdSense 承認後、Google から渡される広告ユニットのコードをこの div の中に貼る -->
-  <div class="ad-slot" id="ad-bottom"></div>
+    <!-- 広告枠：AdSense 承認後、Google から渡される広告ユニットのコードをこの div の中に貼る -->
+    <div class="ad-slot" id="ad-bottom"></div>
+  </div>
+  </div>
 
   <footer class="site-footer">
     <nav aria-label="サイト情報">

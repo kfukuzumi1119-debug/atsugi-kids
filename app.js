@@ -15,6 +15,35 @@
   const WD = ["日", "月", "火", "水", "木", "金", "土"];
   const FAV_KEY = "atsugi-kids-events:favs";
 
+  // トップの写真（すべて Wikimedia Commons の自由に使える写真。縮小して使用）
+  const PHOTOS = [
+    { src: "images/atsugi.jpg", place: "あつぎ鮎まつりの花火", cities: ["厚木市"], pos: "50% 45%",
+      artist: "YANSANSEI", license: "CC BY 4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+      page: "https://commons.wikimedia.org/wiki/File:Kanagawa-A_fireworks_display_in_Atsugi_City-xl.jpg" },
+    { src: "images/isehara.jpg", place: "田んぼの向こうに大山と富士山", cities: ["伊勢原市"], pos: "50% 55%",
+      artist: "Mzaki", license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/",
+      page: "https://commons.wikimedia.org/wiki/File:Mount_Oyama_viewed_from_Kamiya,_Isehara.jpg" },
+    { src: "images/miyagase.jpg", place: "宮ヶ瀬ダム", cities: ["愛川町", "清川村"], pos: "50% 45%",
+      artist: "Dandy1022", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      page: "https://commons.wikimedia.org/wiki/File:Miyagase_Dam,_Aikawa,_Kanagawa.jpg" },
+    { src: "images/zama.jpg", place: "座間のひまわり畑", cities: ["座間市"], pos: "50% 40%",
+      artist: "Kakidai", license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+      page: "https://commons.wikimedia.org/wiki/File:Sunflowers_in_Zama.jpg" },
+    { src: "images/ebina.jpg", place: "海老名中央公園の七重の塔", cities: ["海老名市"], pos: "50% 40%",
+      artist: "Nesnad", license: "CC BY 4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+      page: "https://commons.wikimedia.org/wiki/File:Seven-story_Pagoda_Monument_in_Ebina_Central_Park_2026_May_28.jpg" },
+    { src: "images/yamato.jpg", place: "泉の森の水車小屋", cities: ["大和市"], pos: "50% 50%",
+      artist: "Aimaimyi", license: "CC BY-SA 3.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+      page: "https://commons.wikimedia.org/wiki/File:Izuminomori_-02.jpg" },
+    { src: "images/ayase.jpg", place: "風の公園", cities: ["綾瀬市"], pos: "50% 55%",
+      artist: "Haya4", license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/",
+      page: "https://commons.wikimedia.org/wiki/File:Park_Ayase,Kanagawa%27%E9%A2%A8%E3%81%AE%E5%85%AC%E5%9C%92%27.jpg" },
+    { src: "images/sagamihara.jpg", place: "相模湖", cities: ["相模原市"], pos: "50% 55%",
+      artist: "Σ64", license: "CC BY 3.0", licenseUrl: "https://creativecommons.org/licenses/by/3.0/",
+      page: "https://commons.wikimedia.org/wiki/File:Lake_Sagami_03.jpg" },
+  ];
+  let heroPhoto = null;
+
   const state = { range: "month", cities: new Set(), ages: new Set(), free: false, walkin: false, fav: false, q: "" };
   let events = [];
   let meta = null;
@@ -234,6 +263,7 @@
           if (state.cities.has(c)) state.cities.delete(c);
           else state.cities.add(c);
           e.currentTarget.setAttribute("aria-pressed", String(state.cities.has(c)));
+          updateHero();
           render();
         },
       }, c));
@@ -291,6 +321,35 @@
     s.textContent = JSON.stringify(items.slice(0, 100));
     document.head.append(s);
   }
+
+  // ---------- トップの写真 ----------
+  function showHero(photo) {
+    if (!photo || photo === heroPhoto) return;
+    heroPhoto = photo;
+    const img = document.getElementById("hero-img");
+    img.classList.remove("loaded");
+    img.onload = () => img.classList.add("loaded");
+    img.style.objectPosition = photo.pos;
+    img.alt = `${photo.place}（${photo.cities.join("・")}）`;
+    img.src = photo.src;
+    document.getElementById("hero-place").textContent = `${photo.place}｜${photo.cities.join("・")}`;
+    const credit = document.getElementById("hero-credit");
+    credit.replaceChildren(
+      "写真: ",
+      h("a", { href: photo.page, target: "_blank", rel: "noopener" }, photo.artist),
+      " / ",
+      h("a", { href: photo.licenseUrl, target: "_blank", rel: "noopener" }, photo.license),
+    );
+  }
+  function updateHero() {
+    if (state.cities.size === 1) {
+      const city = [...state.cities][0];
+      const match = PHOTOS.find((p) => p.cities.includes(city));
+      if (match) return showHero(match);
+    }
+    if (!heroPhoto) showHero(PHOTOS[Math.floor(Math.random() * PHOTOS.length)]);
+  }
+  updateHero();
 
   // ---------- 操作 ----------
   document.querySelectorAll(".seg button").forEach((b) => {
