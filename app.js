@@ -322,32 +322,81 @@
     document.head.append(s);
   }
 
-  // ---------- トップの写真 ----------
+  // ---------- トップの写真（スライドショー） ----------
+  const HERO_INTERVAL = 6000;
+  const heroImgs = [document.getElementById("hero-a"), document.getElementById("hero-b")];
+  const heroDots = document.getElementById("hero-dots");
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let heroFront = 0;
+  let heroToken = 0;
+  let heroTimer = null;
+
+  PHOTOS.forEach((p) => {
+    heroDots.append(h("button", {
+      type: "button",
+      "aria-label": `${p.place}（${p.cities.join("・")}）の写真を表示`,
+      onclick: () => {
+        showHero(p);
+        restartHeroTimer();
+      },
+    }));
+  });
+
   function showHero(photo) {
     if (!photo || photo === heroPhoto) return;
     heroPhoto = photo;
-    const img = document.getElementById("hero-img");
-    img.classList.remove("loaded");
-    img.onload = () => img.classList.add("loaded");
-    img.style.objectPosition = photo.pos;
-    img.alt = `${photo.place}（${photo.cities.join("・")}）`;
-    img.src = photo.src;
+    const token = ++heroToken;
+    const back = heroImgs[1 - heroFront];
+    let done = false;
+    back.onload = () => {
+      if (done || token !== heroToken) return;
+      done = true;
+      back.classList.add("show");
+      heroImgs[heroFront].classList.remove("show");
+      heroFront = 1 - heroFront;
+    };
+    back.style.objectPosition = photo.pos;
+    back.alt = `${photo.place}（${photo.cities.join("・")}）`;
+    back.src = photo.src;
+    if (back.complete && back.naturalWidth) back.onload();
+
     document.getElementById("hero-place").textContent = `${photo.place}｜${photo.cities.join("・")}`;
-    const credit = document.getElementById("hero-credit");
-    credit.replaceChildren(
+    document.getElementById("hero-credit").replaceChildren(
       "写真: ",
       h("a", { href: photo.page, target: "_blank", rel: "noopener" }, photo.artist),
       " / ",
       h("a", { href: photo.licenseUrl, target: "_blank", rel: "noopener" }, photo.license),
     );
+    const idx = PHOTOS.indexOf(photo);
+    heroDots.querySelectorAll("button").forEach((b, i) => b.setAttribute("aria-current", String(i === idx)));
+
+    // 次の写真を先に読み込んでおく
+    const next = PHOTOS[(idx + 1) % PHOTOS.length];
+    new Image().src = next.src;
   }
+
+  function cityPhoto() {
+    if (state.cities.size !== 1) return null;
+    const city = [...state.cities][0];
+    return PHOTOS.find((p) => p.cities.includes(city)) || null;
+  }
+
+  function nextHero() {
+    if (document.hidden || cityPhoto()) return;
+    const idx = PHOTOS.indexOf(heroPhoto);
+    showHero(PHOTOS[(idx + 1) % PHOTOS.length]);
+  }
+
+  function restartHeroTimer() {
+    clearInterval(heroTimer);
+    if (!reduceMotion) heroTimer = setInterval(nextHero, HERO_INTERVAL);
+  }
+
   function updateHero() {
-    if (state.cities.size === 1) {
-      const city = [...state.cities][0];
-      const match = PHOTOS.find((p) => p.cities.includes(city));
-      if (match) return showHero(match);
-    }
-    if (!heroPhoto) showHero(PHOTOS[Math.floor(Math.random() * PHOTOS.length)]);
+    const match = cityPhoto();
+    if (match) showHero(match);
+    else if (!heroPhoto) showHero(PHOTOS[Math.floor(Math.random() * PHOTOS.length)]);
+    restartHeroTimer();
   }
   updateHero();
 
