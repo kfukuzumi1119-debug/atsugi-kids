@@ -133,6 +133,11 @@
     return el;
   }
 
+  // イベントページのファイル名（build.py の file_id と同じルール）
+  function fileId(ev) {
+    return String(ev.id).toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/^-+|-+$/g, "") || "event";
+  }
+
   function safeUrl(u) {
     return typeof u === "string" && /^https:\/\//.test(u) ? u : null;
   }
@@ -189,7 +194,7 @@
 
     return h("article", { class: "ev" },
       h("div", { class: "ev-top" }, h("span", { class: "cat" }, ev.category || "イベント"), h("span", null, ev.city), star),
-      h("h3", null, ev.title),
+      h("h3", null, h("a", { class: "ev-link", href: "event/" + fileId(ev) + ".html" }, ev.title)),
       h("p", { class: "line" }, h("span", { class: "k" }, "いつ"), h("span", null, whenText(ev, groupKey))),
       h("p", { class: "line" }, h("span", { class: "k" }, "場所"), h("span", null, ev.venue)),
       ev.age ? h("p", { class: "line" }, h("span", { class: "k" }, "対象"), h("span", null, ev.age)) : null,
@@ -289,47 +294,6 @@
     el.textContent = parts.join("　・　");
   }
 
-  // ---------- Google 向けのイベント情報（構造化データ） ----------
-  function isoTime(date, hhmm) {
-    return hhmm ? `${date}T${hhmm.padStart(5, "0")}:00+09:00` : date;
-  }
-  function addStructuredData() {
-    const todayKey = toKey(today());
-    const items = [];
-    for (const ev of events) {
-      if (!ev.end || ev.end < todayKey) continue;
-      const m = /^(\d{1,2}:\d{2})\s*〜\s*(\d{1,2}:\d{2})/.exec(ev.time || "");
-      const base = {
-        "@context": "https://schema.org",
-        "@type": "Event",
-        name: ev.title,
-        description: [ev.summary, ev.tip].filter(Boolean).join(" "),
-        eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-        eventStatus: /^【中止】/.test(ev.title) ? "https://schema.org/EventCancelled" : "https://schema.org/EventScheduled",
-        location: {
-          "@type": "Place",
-          name: ev.venue,
-          address: { "@type": "PostalAddress", addressLocality: ev.city, addressRegion: "神奈川県", addressCountry: "JP" },
-        },
-        isAccessibleForFree: ev.free === true,
-      };
-      if (safeUrl(ev.url)) base.url = ev.url;
-      if (ev.free === true) {
-        base.offers = { "@type": "Offer", price: 0, priceCurrency: "JPY", availability: "https://schema.org/InStock", url: safeUrl(ev.url) || location.href };
-      }
-      const days = ev.dates && ev.dates.length ? ev.dates.filter((d) => d >= todayKey) : null;
-      if (days) {
-        for (const d of days) items.push({ ...base, startDate: isoTime(d, m && m[1]), endDate: isoTime(d, m && m[2]) });
-      } else {
-        items.push({ ...base, startDate: ev.start, endDate: ev.end });
-      }
-    }
-    if (!items.length) return;
-    const s = document.createElement("script");
-    s.type = "application/ld+json";
-    s.textContent = JSON.stringify(items.slice(0, 100));
-    document.head.append(s);
-  }
 
   // ---------- トップの写真（スライドショー） ----------
   const HERO_INTERVAL = 6000;
@@ -487,7 +451,6 @@
       renderCities();
       renderMeta();
       render();
-      addStructuredData();
     })
     .catch(() => {
       loaded = true;
