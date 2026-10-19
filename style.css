@@ -73,6 +73,19 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid 
   letter-spacing: 0.02em;
 }
 .mast-title a { color: var(--ink); text-decoration: none; }
+.mast-title .ed {
+  display: inline-block;
+  margin-left: 0.35em;
+  padding: 0.12em 0.4em 0.08em;
+  background: var(--green);
+  color: var(--green-ink);
+  font-family: var(--body);
+  font-weight: 700;
+  font-size: max(13px, 0.4em);
+  line-height: 1.25;
+  vertical-align: 0.5em;
+  letter-spacing: 0.08em;
+}
 .mast-areas { margin: 0 0 10px; font-size: 12px; color: var(--muted); letter-spacing: 0.08em; }
 .mast-nav {
   display: flex;

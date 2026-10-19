@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent
 SITE = "https://kfukuzumi1119-debug.github.io/atsugi-kids/"
-SITE_NAME = "あつぎ子連れイベント帳"
+SITE_NAME = "週末子連れカレンダー 県央版"
 JST = timezone(timedelta(hours=9))
 
 CITIES = [
@@ -235,7 +235,7 @@ def page(*, title, description, path, body, prefix, og_type="article", jsonld=No
       <span>神奈川県央の子連れおでかけ情報</span>
       <span class="issue">{md(updated_global[0])}更新　毎週金曜更新</span>
     </div>
-    <p class="mast-title"><a href="{prefix}">{SITE_NAME}</a></p>
+    <p class="mast-title"><a href="{prefix}">週末子連れカレンダー<span class="ed">県央版</span></a></p>
     <nav class="mast-nav" aria-label="サイト">
       <a href="{prefix}">イベント一覧</a>
       <a href="{prefix}#explore">エリア別</a>
