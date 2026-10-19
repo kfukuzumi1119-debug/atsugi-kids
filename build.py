@@ -13,7 +13,6 @@
 import html
 import json
 import re
-import shutil
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -55,6 +54,7 @@ RESERVE = {
 }
 
 e = html.escape
+updated_global = [""]
 
 
 # ---------- 日付 ----------
@@ -172,7 +172,7 @@ def card(ev, prefix, day=None, today=None):
 def hero(photo_key, prefix, place_suffix=""):
     src, place, artist, lic, lic_url, page, pos = PHOTOS[photo_key]
     return f"""<figure class="hero hero-static">
-    <img src="{prefix}images/{src}" alt="{e(place)}{e(place_suffix)}" width="1200" height="525" style="object-position:{pos}">
+    <div class="hero-frame"><img src="{prefix}images/{src}" alt="{e(place)}{e(place_suffix)}" width="1200" height="525" style="object-position:{pos}"></div>
     <figcaption>
       <span class="hero-place">{e(place)}{e(place_suffix)}</span>
       <span class="hero-credit">写真: <a href="{page}" target="_blank" rel="noopener">{e(artist)}</a> / <a href="{lic_url}" target="_blank" rel="noopener">{lic}</a></span>
@@ -219,24 +219,41 @@ def page(*, title, description, path, body, prefix, og_type="article", jsonld=No
 <meta property="og:locale" content="ja_JP">
 <meta property="og:image" content="{SITE}og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0e7a6b">
+<meta name="theme-color" content="#00704a">
 <link rel="icon" href="{prefix}favicon.svg" type="image/svg+xml">
 <link rel="icon" href="{prefix}favicon-48.png" type="image/png" sizes="48x48">
 <link rel="apple-touch-icon" href="{prefix}apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Dela+Gothic+One&display=swap">
 <link rel="stylesheet" href="{prefix}style.css">
 {ld_html}</head>
 <body>
 <div class="wrap">
-  <nav class="site-nav" aria-label="サイト">
-    <a class="brand" href="{prefix}">{SITE_NAME}</a>
-    <ul><li><a href="{prefix}">イベント一覧</a></li><li><a href="{prefix}about.html">このサイトについて</a></li></ul>
-  </nav>
+  <header class="masthead masthead-sm">
+    <div class="mast-bar">
+      <span>神奈川県央の子連れおでかけ情報</span>
+      <span class="issue">{md(updated_global[0])}更新　毎週金曜更新</span>
+    </div>
+    <p class="mast-title"><a href="{prefix}">{SITE_NAME}</a></p>
+    <nav class="mast-nav" aria-label="サイト">
+      <a href="{prefix}">イベント一覧</a>
+      <a href="{prefix}#explore">エリア別</a>
+      <a href="{prefix}#tokushu">特集</a>
+      <a href="{prefix}about.html">このサイトについて</a>
+    </nav>
+  </header>
   {crumb_html}
 {body}
   <footer class="site-footer">
+    <div class="colophon">
+      <p class="colo-title">{SITE_NAME}</p>
+      <dl>
+        <dt>発行</dt><dd>毎週金曜日更新</dd>
+        <dt>編集</dt><dd>けんつ</dd>
+        <dt>エリア</dt><dd>厚木・海老名・座間・綾瀬・大和・相模原・伊勢原・愛川・清川</dd>
+      </dl>
+    </div>
     <nav aria-label="サイト情報">
       <a href="{prefix}">イベント一覧</a>
       <a href="{prefix}about.html">このサイトについて・お問い合わせ</a>
@@ -297,7 +314,7 @@ def section_by_day(events, today, until, prefix):
     for d in sorted(by_day):
         cards = "\n".join(card(ev, prefix, day=d, today=today) for ev in by_day[d])
         parts.append(f"""<section class="group">
-  <h2 class="{day_class(d)}"><span class="md">{md(d)}</span><span class="wd">{wd(d)}</span></h2>
+  <h2 class="{day_class(d)}"><span class="md">{d_of(d).month}月<b>{d_of(d).day}</b></span><span class="wd">{wd(d)}</span></h2>
   <div class="cards">{cards}</div>
 </section>""")
     if periods:
@@ -410,11 +427,11 @@ def build_area_page(city, slug, events, today, updated, range_end):
         f'<a class="chip-link" href="{s}.html">{e(c)}</a>' for c, s in CITIES if c != city
     )
     body = f"""  {hero(CITY_PHOTO[slug], prefix, "（" + city + "）")}
-  <header class="top">
-    <p class="eyebrow">神奈川県央｜エリア別</p>
-    <h1>{e(city)}の子連れイベント</h1>
+  <header class="cover">
+    <p class="eyebrow">エリア別</p>
+    <h1>{e(city)}の子連れイベント<span class="h1-sub">今週末と、これからのおでかけ先</span></h1>
     <p class="intro">{e(city)}で開かれる子ども・親子向けのイベントを、日付順にまとめています。お祭りや工作体験、公園の自然観察、図書館のおはなし会など、{e(city)}周辺で子どもと出かける先を探すときにどうぞ。</p>
-    <p class="meta">{md(updated)} 更新　・　{md(range_end)}までの情報　・　{len(mine)}件掲載</p>
+    <p class="meta">{md(updated)} 更新　／　{md(range_end)}までの情報　／　{len(mine)}件掲載</p>
   </header>
   <main class="list-page">
 {wk_html}
@@ -422,7 +439,7 @@ def build_area_page(city, slug, events, today, updated, range_end):
 {list_html}
   </main>
   <section class="explore">
-    <h2>ほかの市町村から探す</h2>
+    <h2>ほかの市町村からさがす</h2>
     <div class="chip-links">{other}</div>
   </section>"""
     title = f"{city}の子連れイベント・子ども向けイベント（今週末・{d_of(today).month}月〜）｜{SITE_NAME}"
@@ -456,11 +473,11 @@ def build_feature_page(ft, events, today, updated, range_end):
     if ft.get("points"):
         items = "".join(f"<li>{e(p)}</li>" for p in ft["points"])
         tips = f'<section class="feature-points"><h2>{e(ft.get("pointsTitle") or "子連れで行くときのポイント")}</h2><ul>{items}</ul></section>'
-    body = f"""  <header class="top">
+    body = f"""  <header class="cover">
     <p class="eyebrow">特集</p>
     <h1>{e(ft["h1"])}</h1>
     <p class="intro">{e(ft["intro"])}</p>
-    <p class="meta">{md(updated)} 更新　・　{len(matched)}件掲載</p>
+    <p class="meta">{md(updated)} 更新　／　{len(matched)}件掲載</p>
   </header>
   {tips}
   <main class="list-page">
@@ -480,10 +497,10 @@ def build_explore(events, feature_counts):
         f'<a class="chip-link" href="feature/{slug}.html">{e(label)}<span class="n">{n}</span></a>'
         for slug, label, n, show in feature_counts if show
     )
-    return f"""<section class="explore">
-      <h2>エリアから探す</h2>
+    return f"""<section class="explore" id="explore">
+      <h2>エリアからさがす</h2>
       <div class="chip-links">{city_links}</div>
-      <h2>特集から探す</h2>
+      <h2 id="tokushu">特集からさがす</h2>
       <div class="chip-links">{feats}</div>
     </section>"""
 
@@ -496,14 +513,17 @@ def main():
     meta = json.loads((ROOT / "data/meta.json").read_text(encoding="utf-8"))
     features = json.loads((ROOT / "data/features.json").read_text(encoding="utf-8"))
     updated = meta.get("updatedAt") or today
+    updated_global[0] = updated
     range_end = meta.get("rangeEnd") or (d_of(today) + timedelta(days=35)).isoformat()
 
     events = [x for x in events if x.get("id") and x.get("title") and x.get("start") and x.get("end") and is_upcoming(x, today)]
     events.sort(key=lambda x: (first_day(x, today), x["id"]))
 
+    # 前回作ったページを消してから作り直す（終わったイベントのページを残さないため）
     for sub in ("area", "event", "feature"):
-        shutil.rmtree(ROOT / sub, ignore_errors=True)
-        (ROOT / sub).mkdir()
+        (ROOT / sub).mkdir(exist_ok=True)
+        for old in (ROOT / sub).glob("*.html"):
+            old.unlink()
 
     urls = ["", "about.html", "privacy.html"]
 

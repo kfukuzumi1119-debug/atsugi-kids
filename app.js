@@ -248,7 +248,7 @@
       const cls = isSunLike(d) ? "day sun" : fromKey(d).getDay() === 6 ? "day sat" : "day";
       const wd = HOLIDAYS.has(d) ? `${wdOf(d)}・祝` : wdOf(d);
       list.append(h("section", { class: "group" },
-        h("h2", { class: cls }, h("span", { class: "md" }, md(d)), h("span", { class: "wd" }, wd), h("span", { class: "rel" }, relLabel(d))),
+        h("h2", { class: cls }, h("span", { class: "md" }, `${fromKey(d).getMonth() + 1}月`, h("b", null, String(fromKey(d).getDate()))), h("span", { class: "wd" }, wd), h("span", { class: "rel" }, relLabel(d))),
         h("div", { class: "cards" }, byDay.get(d).map((ev) => card(ev, d))),
       ));
     }
@@ -291,7 +291,12 @@
     if (meta && meta.updatedAt) parts.push(`${md(meta.updatedAt)} 更新`);
     if (meta && meta.rangeEnd) parts.push(`${md(meta.rangeEnd)}までの情報`);
     parts.push(`${upcoming}件掲載`);
-    el.textContent = parts.join("　・　");
+    el.textContent = parts.join("　／　");
+    const issue = document.getElementById("issue");
+    if (issue && meta && meta.updatedAt) {
+      const d = fromKey(meta.updatedAt);
+      issue.textContent = `${d.getMonth() + 1}月${d.getDate()}日更新号　毎週金曜更新`;
+    }
   }
 
 
