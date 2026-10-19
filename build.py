@@ -159,13 +159,22 @@ def card(ev, prefix, day=None, today=None):
         if ev.get("time"):
             when += f"　{ev['time']}"
     tip = f'<p class="tip"><b>子連れポイント</b>{e(ev["tip"])}</p>' if ev.get("tip") else ""
+    age = f'<p class="line"><span class="k">対象</span><span>{e(ev["age"])}</span></p>' if ev.get("age") else ""
+    summary = f'<p class="sum">{e(ev["summary"])}</p>' if ev.get("summary") else ""
+    links = [f'<a href="{event_href(ev, prefix)}">詳しく見る →</a>']
+    if safe_url(ev.get("url")):
+        links.append(f'<a href="{e(ev["url"])}" target="_blank" rel="noopener">公式ページ（{e(ev.get("source") or "公式")}）↗</a>')
+    links_html = "".join(links)
     return f"""<article class="ev">
   <div class="ev-top"><span class="cat">{e(ev.get("category") or "イベント")}</span><span>{e(ev["city"])}</span></div>
   <h3><a class="ev-link" href="{event_href(ev, prefix)}">{e(ev["title"])}</a></h3>
   <p class="line"><span class="k">いつ</span><span>{e(when)}</span></p>
   <p class="line"><span class="k">場所</span><span>{e(ev.get("venue") or "")}</span></p>
+  {age}
   <div class="badges">{badges(ev)}</div>
   {tip}
+  {summary}
+  <div class="links">{links_html}</div>
 </article>"""
 
 
