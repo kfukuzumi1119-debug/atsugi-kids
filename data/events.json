@@ -210,6 +210,28 @@
     "source": "大和市立図書館公式サイト"
   },
   {
+    "id": "ayase-bunka-geijutsusai-2026",
+    "title": "あやせ文化芸術祭",
+    "category": "室内・学び",
+    "city": "綾瀬市",
+    "venue": "綾瀬市文化会館ほか（綾瀬市深谷中1-3-1）",
+    "start": "2026-10-01",
+    "end": "2026-12-01",
+    "dateNote": "2026年10月1日〜12月1日開催",
+    "age": "どなたでも",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": null,
+    "fee": "要確認",
+    "reserve": "none",
+    "summary": "綾瀬市の木・鳥・花をテーマにした展示を行う文化芸術祭です。期間中はスタンプラリーもあります。",
+    "tip": "スタンプを集めるとプレゼントがもらえるスタンプラリーがあり、子どもと一緒に楽しめます。",
+    "url": "https://iko-yo.net/event_lites/detail/36699",
+    "source": "いこーよ"
+  },
+  {
     "id": "sagamihara-fureai-osakana-voice-changer-2026",
     "title": "おさかなボイスチェンジャーづくり",
     "category": "体験・工作",
@@ -468,9 +490,11 @@
       "2026-10-18",
       "2026-10-25",
       "2026-11-01",
-      "2026-11-08"
+      "2026-11-08",
+      "2026-11-15",
+      "2026-11-22"
     ],
-    "end": "2026-11-08",
+    "end": "2026-11-22",
     "fee": "無料",
     "free": true,
     "reserve": "none",
@@ -1211,6 +1235,33 @@
     "source": "いこーよ"
   },
   {
+    "id": "ario-hashimoto-fuwafuwa-stadium-2026",
+    "title": "ふわふわスタジアム！！",
+    "category": "自然・外遊び",
+    "city": "相模原市",
+    "venue": "アリオ橋本 1階 アクアガーデン（相模原市緑区橋本6-24-1）",
+    "dates": [
+      "2026-10-24",
+      "2026-10-25"
+    ],
+    "start": "2026-10-24",
+    "end": "2026-10-25",
+    "time": "10:00〜18:00（最終受付17:30）",
+    "age": "3歳〜8歳（小学2年生まで）、保護者同伴必須",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": false,
+    "fee": "15分500円（税込）",
+    "reserve": "check",
+    "reserveNote": "予約要否はページに記載なし",
+    "summary": "大きなふわふわ遊具で遊べる屋内イベントです。",
+    "tip": "対象は3〜8歳で保護者同伴が必要です。時間制・有料なので持ち時間を考えて利用するとよいでしょう。",
+    "url": "https://hashimoto.ario.jp/event/2400015533",
+    "source": "アリオ橋本公式"
+  },
+  {
     "id": "aeon-zama-dynaboars-autumn-festa-2026",
     "title": "イオンモール×相模原ダイナボアーズ 秋フェスタ！",
     "category": "お祭り",
@@ -1533,6 +1584,31 @@
     "source": "綾瀬市公式"
   },
   {
+    "id": "ebina-kashiwagaya-kosodate-salon-1029",
+    "title": "柏ケ谷 子育てサロン",
+    "category": "室内・学び",
+    "city": "海老名市",
+    "venue": "柏ケ谷コミュニティセンター（海老名市東柏ケ谷2-14-12）",
+    "dates": [
+      "2026-10-29"
+    ],
+    "start": "2026-10-29",
+    "end": "2026-10-29",
+    "time": "10:00〜11:30",
+    "age": "0〜1歳児と保護者（兄弟同伴可）",
+    "ages": [
+      "baby"
+    ],
+    "free": true,
+    "fee": "無料",
+    "reserve": "none",
+    "reserveNote": "申し込み不要",
+    "summary": "0〜1歳の赤ちゃんを育てる親同士が交流できる子育てサロンです。",
+    "tip": "予約不要で気軽に参加できます。詳細は主催（東部地区民生児童委員協議会 046-233-0274）に確認すると確実です。",
+    "url": "https://iko-yo.net/event_lites/detail/36114",
+    "source": "いこーよ"
+  },
+  {
     "id": "yamato-ekimae-halloween-parade-2026",
     "title": "大和駅周辺ハロウィンパレード",
     "category": "お祭り",
@@ -1810,6 +1886,58 @@
     "id": "yucoop-tomuro-halloween-2026"
   },
   {
+    "id": "atsugi-nodai-shukakusai-2026",
+    "title": "東京農業大学厚木キャンパス 第27回収穫祭",
+    "category": "おでかけ",
+    "city": "厚木市",
+    "venue": "東京農業大学厚木キャンパス（厚木市船子1737）",
+    "dates": [
+      "2026-10-31",
+      "2026-11-01"
+    ],
+    "start": "2026-10-31",
+    "end": "2026-11-01",
+    "time": "9:00〜（両日）",
+    "age": "記載なし（親子収穫体験あり）",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": null,
+    "fee": "要確認",
+    "reserve": "check",
+    "reserveNote": "一部体験コンテンツは整理券が必要な場合あり",
+    "summary": "大学の畑でダイコンやサツマイモを収穫できる体験や、ワークショップなどが行われる大学祭です。毎年恒例の親子向け収穫体験が人気です。",
+    "tip": "畑での収穫体験のため、汚れてもよい服と履きなれた靴がおすすめです。詳しい時間や整理券の有無は当日配布のパンフレットで確認してください。",
+    "url": "https://atsugi-lab.com/event-noudai-atsugifes2026/",
+    "source": "厚木らぼ"
+  },
+  {
+    "id": "ario-hashimoto-halloween-dome-1031",
+    "title": "楽しく作ろう♪ 手作りハロウィンドーム！",
+    "category": "体験・工作",
+    "city": "相模原市",
+    "venue": "アリオ橋本 1階 グランドガーデン横",
+    "dates": [
+      "2026-10-31"
+    ],
+    "start": "2026-10-31",
+    "end": "2026-10-31",
+    "time": "10:00〜18:00（最終受付）",
+    "age": "記載なし",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": false,
+    "fee": "基本セット1,870円（税込）、キャラクターパーツ1体110円〜",
+    "reserve": "none",
+    "summary": "ハロウィンをテーマにしたオリジナルドーム作りの工作コーナーです。",
+    "tip": "有料の工作コーナーで、当日受付・随時参加の形式です。料金は作るものによって変わります。",
+    "url": "https://hashimoto.ario.jp/event/2400015552",
+    "source": "アリオ橋本公式"
+  },
+  {
     "id": "aeon-yamato-kento-magic-show-2026",
     "title": "KENTO【マジシャン先生】MAGIC SHOW",
     "category": "おでかけ",
@@ -2037,6 +2165,31 @@
     "source": "大和市立図書館公式"
   },
   {
+    "id": "ario-hashimoto-snow-dome-1101",
+    "title": "楽しく作ろう♪ 手作りスノードーム！",
+    "category": "体験・工作",
+    "city": "相模原市",
+    "venue": "アリオ橋本 1階 グランドガーデン横",
+    "dates": [
+      "2026-11-01"
+    ],
+    "start": "2026-11-01",
+    "end": "2026-11-01",
+    "time": "10:00〜18:00（最終受付）",
+    "age": "記載なし",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": false,
+    "fee": "基本セット1,870円（税込）、キャラクターパーツ1体110円〜",
+    "reserve": "none",
+    "summary": "オリジナルのスノードームを手作りできる工作コーナーです。",
+    "tip": "有料の工作コーナーで、当日受付・随時参加の形式です。",
+    "url": "https://hashimoto.ario.jp/event/2400015553",
+    "source": "アリオ橋本公式"
+  },
+  {
     "id": "aikawa-masu-tsuri-taikai-2026",
     "title": "2026秋のマス釣り大会",
     "category": "自然・外遊び",
@@ -2216,6 +2369,31 @@
     "source": "シリウス公式"
   },
   {
+    "id": "ario-hashimoto-sdgs-miraitaun-1103",
+    "title": "みらいたうんへようこそ！〜親子で楽しく学べるSDGs〜",
+    "category": "室内・学び",
+    "city": "相模原市",
+    "venue": "アリオ橋本 1階 グランドガーデン",
+    "dates": [
+      "2026-11-03"
+    ],
+    "start": "2026-11-03",
+    "end": "2026-11-03",
+    "time": "11:00〜16:00",
+    "age": "親子向け",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": null,
+    "fee": "要確認",
+    "reserve": "none",
+    "summary": "SDGsについて親子で体験しながら学べる企画です。",
+    "tip": "体験コーナーの詳細や料金はページに明記されていないため、当日モールで確認すると安心です。",
+    "url": "https://hashimoto.ario.jp/event/2400015561",
+    "source": "アリオ橋本公式"
+  },
+  {
     "id": "atsugi-kosodate-fureai-2yo-1105",
     "title": "子育て講座 親子ふれあい遊び（2歳児）",
     "category": "室内・学び",
@@ -2248,10 +2426,11 @@
     "city": "伊勢原市",
     "venue": "子育て支援センター クルリンにじっこひろば（伊勢原市田中348）",
     "dates": [
-      "2026-11-05"
+      "2026-11-05",
+      "2026-11-26"
     ],
     "start": "2026-11-05",
-    "end": "2026-11-05",
+    "end": "2026-11-26",
     "age": "1歳未満の子とその保護者・妊婦",
     "ages": [
       "baby"
@@ -2450,6 +2629,56 @@
     "source": "共同通信PRワイヤー"
   },
   {
+    "id": "ario-hashimoto-shobo-fair-1107",
+    "title": "北消防署 消防フェア",
+    "category": "自然・外遊び",
+    "city": "相模原市",
+    "venue": "アリオ橋本 南平面駐車場",
+    "dates": [
+      "2026-11-07"
+    ],
+    "start": "2026-11-07",
+    "end": "2026-11-07",
+    "time": "10:00〜14:00",
+    "age": "親子向け（こども体験コーナーあり）",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": null,
+    "fee": "要確認",
+    "reserve": "none",
+    "reserveNote": "雨天中止",
+    "summary": "消防車の展示や子ども向け体験コーナーがある、北消防署による屋外の消防フェアです。",
+    "tip": "屋外の駐車場での開催のため、雨天の場合は中止になります。",
+    "url": "https://hashimoto.ario.jp/event/2400015554",
+    "source": "アリオ橋本公式"
+  },
+  {
+    "id": "atsugi-robot-programming-1107",
+    "title": "ロボットプログラミング体験",
+    "category": "室内・学び",
+    "city": "厚木市",
+    "venue": "プロミティあつぎビル2階（厚木市中町4-16-21、本厚木駅徒歩4分）",
+    "dates": [
+      "2026-11-07"
+    ],
+    "start": "2026-11-07",
+    "end": "2026-11-07",
+    "age": "小学生・中学生",
+    "ages": [
+      "school"
+    ],
+    "free": true,
+    "fee": "無料",
+    "reserve": "required",
+    "reserveNote": "神奈川県電子申請システムで事前申込（青少年センター科学部ホームページ参照）",
+    "summary": "ビジュアルプログラミングでロボットを動かす、小中学生向けの無料体験講座です。",
+    "tip": "無料ですが抽選制の予約が必要です。早めに申し込んでおくと安心です。",
+    "url": "https://iko-yo.net/event_lites/detail/34666",
+    "source": "いこーよ"
+  },
+  {
     "id": "yamato-izuminomori-kansatsukai-1108",
     "title": "泉の森観察会（11月）",
     "category": "自然・外遊び",
@@ -2473,7 +2702,7 @@
     "reserveNote": "参加条件・申込方法は自然観察センター・しらかしのいえへ要問合せ",
     "summary": "泉の森ガイド部会による定例の自然観察会で、季節の木々や草花、昆虫などを見ながら園内を散策する。",
     "tip": "開催時間が長めなので、都合に合わせて途中参加・途中退出もしやすい。雨天中止のため当日の天気を確認する。",
-    "url": "http://www.yamato-zaidan.or.jp/izumi",
+    "url": "https://www.yamato-zaidan.or.jp/izumi",
     "source": "大和市緑の基金"
   },
   {
@@ -2500,6 +2729,32 @@
     "tip": "図書館の裏側を見られる珍しい機会です。事前申込の有無は公式サイトで確認してください。",
     "url": "https://yamato-bunka.jp/library/2026/013824.html",
     "source": "大和市立図書館公式"
+  },
+  {
+    "id": "ario-hashimoto-noel-board-1108",
+    "title": "きらめく☆ノエルボードアレンジづくり",
+    "category": "体験・工作",
+    "city": "相模原市",
+    "venue": "アリオ橋本 1階 グランドガーデン横",
+    "dates": [
+      "2026-11-08"
+    ],
+    "start": "2026-11-08",
+    "end": "2026-11-08",
+    "time": "11:00/12:00/14:00/15:00（各回約40分、各回25名）",
+    "age": "記載なし",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": null,
+    "fee": "参加費の記載なし。アリオ橋本専門店街での税込500円以上の買い上げレシート提示が参加条件（2名の場合は税込1,000円以上）",
+    "reserve": "ticket",
+    "reserveNote": "当日配布の整理券制（11:00・12:00の回は10:40〜、14:00・15:00の回は13:40〜配布、定員に達したら終了）",
+    "summary": "クリスマス飾りの「ノエルボード」を手作りできるワークショップです。",
+    "tip": "参加には当日のお買い物レシートの提示が必要です。整理券は先着制なので早めの来場がおすすめです。",
+    "url": "https://hashimoto.ario.jp/event/2400015558",
+    "source": "アリオ橋本公式"
   },
   {
     "id": "vinawalk-mamahappy-expo-2026",
@@ -2544,11 +2799,12 @@
     ],
     "free": true,
     "fee": "無料",
-    "reserve": "check",
+    "reserve": "closed",
     "summary": "1〜2歳の子どもと保護者を対象にした工作教室です。10月14日開催分（別日程）は満員になりました。",
     "tip": "人気のプログラムで満員になりやすいため、参加希望なら早めの申込みが安心です。",
     "url": "https://yamato-bunka.jp/plaza/2026/013798.html",
-    "source": "大和市文化創造拠点シリウス公式"
+    "source": "大和市文化創造拠点シリウス公式",
+    "reserveNote": "満員御礼のため受付終了"
   },
   {
     "id": "isehara-piyopiyo-kosodatehiroba-1112",
@@ -2574,6 +2830,32 @@
     "tip": "兄姉も参加できる回なので、きょうだいで一緒に行きやすいです。事前予約が必要です。",
     "url": "https://www.city.isehara.kanagawa.jp/kosodate-portal/event-list/2026/11/",
     "source": "伊勢原市公式"
+  },
+  {
+    "id": "yamato-sakuragaoka-cherirun-1112",
+    "title": "ちぇりるんのへや（親子リズム遊び・絵本）",
+    "category": "室内・学び",
+    "city": "大和市",
+    "venue": "桜丘駅西口付近（大和市福田1-30-1）",
+    "dates": [
+      "2026-11-12"
+    ],
+    "start": "2026-11-12",
+    "end": "2026-11-12",
+    "time": "10:00〜10:45",
+    "age": "市内在住・在勤の0〜6歳児と保護者",
+    "ages": [
+      "baby",
+      "kinder"
+    ],
+    "free": true,
+    "fee": "無料",
+    "reserve": "required",
+    "reserveNote": "各回8組・先着。開催日3週間前の木曜10:00から電話等で受付（11/12分は10/22受付開始）",
+    "summary": "リズム遊びや絵本の読み聞かせを楽しむ、乳幼児と保護者向けの集まりです。",
+    "tip": "定員8組の予約制です。申込開始時刻を過ぎるとすぐ埋まる可能性があるので早めに連絡しましょう。",
+    "url": "https://iko-yo.net/event_lites/detail/16580",
+    "source": "いこーよ"
   },
   {
     "id": "aikawa-yamajuu-led-candle-2026",
@@ -2621,11 +2903,12 @@
     ],
     "free": true,
     "fee": "無料",
-    "reserve": "required",
+    "reserve": "closed",
     "summary": "屋内こども広場で行われる乳児期の親子向け子育て支援プログラムです。",
     "tip": "無料で参加できる親子向けプログラムですが、人気が高くすぐ満員になることがあるため早めの申込みがおすすめです。",
     "url": "https://yamato-bunka.jp/plaza/2026/013785.html",
-    "source": "大和市文化創造拠点シリウス公式"
+    "source": "大和市文化創造拠点シリウス公式",
+    "reserveNote": "キャンセル待ちのため受付終了"
   },
   {
     "id": "aikawa-origami-led-workshop-1114",
@@ -2652,6 +2935,33 @@
     "tip": "小学生以上が対象の工作体験で、1回あたり15名の少人数制なのでじっくり取り組める。",
     "url": "https://www.town.aikawa.kanagawa.jp/event/12240.html",
     "source": "愛川町公式"
+  },
+  {
+    "id": "lalaport-advent-calendar-1114",
+    "title": "つくって、めくって、クリスマスまで待とう！アドベントカレンダーづくり",
+    "category": "体験・工作",
+    "city": "海老名市",
+    "venue": "ららぽーと海老名 2F「Gap/GapKids」前",
+    "dates": [
+      "2026-11-14"
+    ],
+    "start": "2026-11-14",
+    "end": "2026-11-14",
+    "time": "10:30/11:30/13:00/14:00/15:00（各回20名）",
+    "age": "保護者同伴（三井ショッピングパークアプリ キッズクラブ会員または当日入会）",
+    "ages": [
+      "baby",
+      "kinder",
+      "school"
+    ],
+    "free": true,
+    "fee": "無料",
+    "reserve": "ticket",
+    "reserveNote": "事前予約ではなく、当日10:00からの整理券配布制（先着）",
+    "summary": "アドベントカレンダーを手作りし、お菓子も一緒にもらえる工作ワークショップです。",
+    "tip": "各回20名の整理券制です。参加には会員登録（当日入会可）と保護者同伴が必要です。",
+    "url": "https://mitsui-shopping-park.com/lalaport/ebina/event/3667690.html",
+    "source": "ららぽーと海老名公式"
   },
   {
     "id": "ebina-shimin-matsuri-2026",
@@ -2708,6 +3018,136 @@
     "source": "広報ざま2026年8月号"
   },
   {
+    "id": "ario-hashimoto-coaster-quiz-1115",
+    "title": "クイズで発見！食のひみつコースターづくり",
+    "category": "体験・工作",
+    "city": "相模原市",
+    "venue": "アリオ橋本 1階 グランドガーデン",
+    "dates": [
+      "2026-11-15"
+    ],
+    "start": "2026-11-15",
+    "end": "2026-11-15",
+    "time": "11:00/12:00/14:00/15:00（各回約40分、各回25名）",
+    "age": "記載なし",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": null,
+    "fee": "参加費の記載なし。アリオ橋本専門店街での税込500円以上の買い上げレシート提示が参加条件（2名の場合は税込1,000円以上）",
+    "reserve": "ticket",
+    "reserveNote": "当日配布の整理券制（配布時刻は11:00・12:00の回が10:40〜、14:00・15:00の回が13:40〜）",
+    "summary": "食に関するクイズに答えながらコースターを作る工作コーナーです。",
+    "tip": "お買い物レシートの提示が参加条件です。整理券は先着のため早めの来場がおすすめです。",
+    "url": "https://hashimoto.ario.jp/event/2400015559",
+    "source": "アリオ橋本公式"
+  },
+  {
+    "id": "ebina-chikusan-center-vet-1115",
+    "title": "一日獣医師体験・施設公開",
+    "category": "体験・工作",
+    "city": "海老名市",
+    "venue": "県畜産技術センター（海老名市本郷3750）",
+    "dates": [
+      "2026-11-15"
+    ],
+    "start": "2026-11-15",
+    "end": "2026-11-15",
+    "age": "0歳〜大人まで幅広く対象",
+    "ages": [
+      "baby",
+      "kinder",
+      "school"
+    ],
+    "free": null,
+    "fee": "要確認",
+    "reserve": "required",
+    "reserveNote": "予約必要（方法の詳細は公式HP参照）",
+    "summary": "畜産技術センターの施設公開にあわせて、獣医師の仕事を体験できる催しです。",
+    "tip": "予約が必要なイベントです。料金や予約方法は公式サイトで事前に確認してください。",
+    "url": "https://iko-yo.net/event_lites/detail/27579",
+    "source": "いこーよ"
+  },
+  {
+    "id": "yamato-sakuragaoka-omocha-byoin-1115",
+    "title": "桜丘おもちゃ病院",
+    "category": "体験・工作",
+    "city": "大和市",
+    "venue": "桜丘学習センター2階202講習室（大和市福田1-30-1、桜ヶ丘駅西口徒歩3分）",
+    "dates": [
+      "2026-11-15"
+    ],
+    "start": "2026-11-15",
+    "end": "2026-11-15",
+    "time": "13:30〜15:00",
+    "age": "記載なし（持込みおもちゃ1家庭2点まで）",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": null,
+    "fee": "要確認",
+    "reserve": "none",
+    "reserveNote": "予約不要・先着15人",
+    "summary": "壊れたおもちゃを直してもらえる、月例のおもちゃ病院です。",
+    "tip": "先着15人までなので早めに行くと安心です。持ち込みは1家庭2点までです。",
+    "url": "https://iko-yo.net/event_lites/detail/30067",
+    "source": "いこーよ"
+  },
+  {
+    "id": "atsugi-kyoudogeinou-ningyoshibai-1115",
+    "title": "厚木市郷土芸能まつり（相模人形芝居公演）",
+    "category": "室内・学び",
+    "city": "厚木市",
+    "venue": "厚木市文化会館 小ホール（恩名1-9-20）",
+    "dates": [
+      "2026-11-15"
+    ],
+    "start": "2026-11-15",
+    "end": "2026-11-15",
+    "time": "13:30〜16:30（開場13:00）",
+    "age": "どなたでも",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": true,
+    "fee": "入場無料",
+    "reserve": "none",
+    "reserveNote": "先着300人",
+    "summary": "第24回厚木市郷土芸能まつりの一環で行われる、相模人形芝居の公演です。10月18日開催分とは別の日程・内容です。",
+    "tip": "座席は先着順です。伝統芸能なので小さな子にはやや長く感じるかもしれません。",
+    "url": "https://iko-yo.net/event_lites/detail/31678",
+    "source": "いこーよ"
+  },
+  {
+    "id": "yamato-nijiiro-marche-1115",
+    "title": "にじいろ Yamato MARCHE",
+    "category": "おでかけ",
+    "city": "大和市",
+    "venue": "やまと公園ほか（大和市中央1-5-5）",
+    "dates": [
+      "2026-11-15"
+    ],
+    "start": "2026-11-15",
+    "end": "2026-11-15",
+    "time": "10:00〜15:00",
+    "age": "0歳〜大人まで幅広く対象",
+    "ages": [
+      "baby",
+      "kinder",
+      "school"
+    ],
+    "free": null,
+    "fee": "要確認",
+    "reserve": "none",
+    "summary": "ワークショップや地元キッズのダンスステージもあるマーケットイベントです。",
+    "tip": "子どもも楽しめるステージやワークショップがあります。詳細は公式Instagramで確認してください。",
+    "url": "https://iko-yo.net/event_lites/detail/34251",
+    "source": "いこーよ"
+  },
+  {
     "id": "aeon-yamato-kodomoru-tsuruma-19th-2026",
     "title": "こども〜る鶴間 活動19周年イベント「きて みて 遊ぼ♪」",
     "category": "おでかけ",
@@ -2735,6 +3175,31 @@
     "source": "イオンモール大和公式"
   },
   {
+    "id": "yamato-sirius-rhythmic-1117",
+    "title": "ハッピー親子リトミック（11月）",
+    "category": "室内・学び",
+    "city": "大和市",
+    "venue": "大和市文化創造拠点シリウス 屋内こども広場",
+    "dates": [
+      "2026-11-17"
+    ],
+    "start": "2026-11-17",
+    "end": "2026-11-17",
+    "time": "10:00〜11:00",
+    "age": "親子向け",
+    "ages": [
+      "baby",
+      "kinder"
+    ],
+    "free": false,
+    "fee": "500円（現金のみ）",
+    "reserve": "check",
+    "summary": "音楽に合わせて体を動かす、親子で楽しめるリトミックプログラムの11月開催分です。",
+    "tip": "参加費は現金のみ対応です。予約の要否はページに明記がないため、事前に屋内こども広場（046-259-7592）へ確認すると確実です。",
+    "url": "https://yamato-bunka.jp/plaza/event/",
+    "source": "大和市文化創造拠点シリウス公式"
+  },
+  {
     "id": "isehara-ohanashi-balloon-naruse-1118",
     "title": "おはなしばる～んのおはなし会",
     "category": "室内・学び",
@@ -2759,5 +3224,231 @@
     "tip": "予約不要で立ち寄れるので、普段づかいの子育てひろばの利用ついでに参加しやすい。",
     "url": "https://www.city.isehara.kanagawa.jp/kosodate-portal/docs/2026092800067/",
     "source": "伊勢原市公式"
+  },
+  {
+    "id": "yamato-sirius-karada-asobo-1118",
+    "title": "からだをうごかしてあそぼう",
+    "category": "自然・外遊び",
+    "city": "大和市",
+    "venue": "大和市文化創造拠点シリウス 屋内こども広場",
+    "dates": [
+      "2026-11-18"
+    ],
+    "start": "2026-11-18",
+    "end": "2026-11-18",
+    "time": "10:00〜11:00",
+    "age": "記載なし",
+    "ages": [
+      "baby",
+      "kinder"
+    ],
+    "free": true,
+    "fee": "無料",
+    "reserve": "check",
+    "summary": "屋内こども広場で体を動かして遊ぶ、無料の親子向けプログラムです。",
+    "tip": "無料で参加できますが、予約の要否は公式ページに記載がありません。事前に施設へ確認すると安心です。",
+    "url": "https://yamato-bunka.jp/plaza/event/",
+    "source": "大和市文化創造拠点シリウス公式"
+  },
+  {
+    "id": "yamato-sirius-tokotan-1120",
+    "title": "とこたん〜みんなのこれから おうえんします〜（11月）",
+    "category": "室内・学び",
+    "city": "大和市",
+    "venue": "大和市文化創造拠点シリウス 屋内こども広場",
+    "dates": [
+      "2026-11-20"
+    ],
+    "start": "2026-11-20",
+    "end": "2026-11-20",
+    "time": "10:00〜11:30",
+    "age": "親子向け（歩きはじめ期を想定したプログラム）",
+    "ages": [
+      "baby"
+    ],
+    "free": true,
+    "fee": "無料",
+    "reserve": "check",
+    "summary": "歩きはじめ期の親子向けの子育て支援プログラムの11月開催分です。",
+    "tip": "無料プログラムです。予約の要否が明記されていないため、事前に施設へ確認すると確実です。",
+    "url": "https://yamato-bunka.jp/plaza/2026/013787.html",
+    "source": "大和市文化創造拠点シリウス公式"
+  },
+  {
+    "id": "ario-hashimoto-christmas-mori-1121",
+    "title": "ちいさな森のクリスマス世界づくり",
+    "category": "体験・工作",
+    "city": "相模原市",
+    "venue": "アリオ橋本 1階 グランドガーデン横",
+    "dates": [
+      "2026-11-21"
+    ],
+    "start": "2026-11-21",
+    "end": "2026-11-21",
+    "time": "11:00/12:00/14:00/15:00（各回約40分、各回25名）",
+    "age": "記載なし",
+    "ages": [
+      "kinder",
+      "school"
+    ],
+    "free": null,
+    "fee": "参加費の記載なし。アリオ橋本専門店街での税込500円以上の買い上げレシート提示が参加条件（2名の場合は税込1,000円以上）",
+    "reserve": "ticket",
+    "reserveNote": "当日配布の整理券制（配布時刻は11:00・12:00の回が10:40〜、14:00・15:00の回が13:40〜）",
+    "summary": "小さな森をテーマにしたクリスマスの飾りを手作りできるワークショップです。",
+    "tip": "お買い物レシートの提示が参加条件です。整理券は先着制です。",
+    "url": "https://hashimoto.ario.jp/event/2400015557",
+    "source": "アリオ橋本公式"
+  },
+  {
+    "id": "yamato-sirius-papa-mama-asobo-1121",
+    "title": "パパとママとあそぼう",
+    "category": "室内・学び",
+    "city": "大和市",
+    "venue": "大和市文化創造拠点シリウス 屋内こども広場",
+    "dates": [
+      "2026-11-21"
+    ],
+    "start": "2026-11-21",
+    "end": "2026-11-21",
+    "time": "10:00〜11:30",
+    "age": "記載なし",
+    "ages": [
+      "baby",
+      "kinder"
+    ],
+    "free": true,
+    "fee": "無料",
+    "reserve": "check",
+    "summary": "パパ・ママと子どもが一緒に体を動かして遊べる、土曜開催の無料プログラムです。",
+    "tip": "土曜開催なのでパパも参加しやすい時間帯です。予約の要否は明記がないため事前確認をおすすめします。",
+    "url": "https://yamato-bunka.jp/plaza/event/",
+    "source": "大和市文化創造拠点シリウス公式"
+  },
+  {
+    "id": "yamato-sirius-tegata-1124",
+    "title": "たんじょうび手形をとろう（11月）",
+    "category": "体験・工作",
+    "city": "大和市",
+    "venue": "大和市文化創造拠点シリウス 屋内こども広場",
+    "dates": [
+      "2026-11-24"
+    ],
+    "start": "2026-11-24",
+    "end": "2026-11-24",
+    "time": "10:00〜11:00",
+    "age": "記載なし",
+    "ages": [
+      "baby",
+      "kinder"
+    ],
+    "free": true,
+    "fee": "無料",
+    "reserve": "check",
+    "summary": "誕生日記念の手形アートを作ってもらえる、屋内こども広場の無料企画です。",
+    "tip": "誕生月の子ども向けの記念企画です。参加条件の詳細は施設へ確認すると確実です。",
+    "url": "https://yamato-bunka.jp/plaza/event/",
+    "source": "大和市文化創造拠点シリウス公式"
+  },
+  {
+    "id": "isehara-ashigata-art-1125",
+    "title": "足型アートワークショップ",
+    "category": "体験・工作",
+    "city": "伊勢原市",
+    "venue": "こどもみらいプラザ2階会議室（伊勢原市役所分庁舎）",
+    "dates": [
+      "2026-11-25"
+    ],
+    "start": "2026-11-25",
+    "end": "2026-11-25",
+    "time": "9:50〜11:50、14:00〜16:00（各回定員10組）",
+    "age": "乳幼児とその保護者（きょうだい同伴可）",
+    "ages": [
+      "baby",
+      "kinder"
+    ],
+    "free": null,
+    "fee": "要確認",
+    "reserve": "required",
+    "reserveNote": "11月11日(水)9:00から伊勢原市公式LINE（子育て→子育て支援センター→予約一覧）または電話0463-74-5558で予約受付開始。各回10組",
+    "summary": "赤ちゃんの足形を使ったアート作りができる、子育て支援センター主催の体験イベントです。",
+    "tip": "予約開始は11月11日からで、定員10組と少なめなので早めの申込がおすすめです。おむつや着替え、抱っこひもなどを持っていくとよいでしょう。",
+    "url": "https://www.city.isehara.kanagawa.jp/kosodate-portal/docs/2024110500029/",
+    "source": "伊勢原市公式"
+  },
+  {
+    "id": "yamato-tsukimino-yochiyochi-ohanashikai-1126",
+    "title": "よちよちおはなし会",
+    "category": "室内・学び",
+    "city": "大和市",
+    "venue": "つきみ野学習センター1階保育室（大和市つきみ野5-3-5）",
+    "dates": [
+      "2026-11-26"
+    ],
+    "start": "2026-11-26",
+    "end": "2026-11-26",
+    "time": "10:00〜11:00",
+    "age": "0〜4歳の乳幼児と保護者",
+    "ages": [
+      "baby",
+      "kinder"
+    ],
+    "free": null,
+    "fee": "要確認",
+    "reserve": "none",
+    "reserveNote": "申込み不要、直接会場へ",
+    "summary": "0〜4歳の子どもと保護者向けの読み聞かせ会です。",
+    "tip": "予約不要で参加できます。詳細はつきみ野学習センター（046-275-0088）に確認すると確実です。",
+    "url": "https://iko-yo.net/event_lites/detail/31552",
+    "source": "いこーよ"
+  },
+  {
+    "id": "isehara-piyopiyo-hibita-1127",
+    "title": "ぴよぴよタイム（つどいの広場ひびた）",
+    "category": "室内・学び",
+    "city": "伊勢原市",
+    "venue": "つどいの広場ひびた（伊勢原市坪ノ内80-1 比々多保育園内）",
+    "dates": [
+      "2026-11-27"
+    ],
+    "start": "2026-11-27",
+    "end": "2026-11-27",
+    "time": "10:00〜12:00",
+    "age": "1歳未満の子とその保護者（きょうだい同伴可）",
+    "ages": [
+      "baby"
+    ],
+    "free": null,
+    "fee": "要確認",
+    "reserve": "none",
+    "reserveNote": "予約不要",
+    "summary": "赤ちゃんとふれあい遊びをしながら、保護者同士で情報交換もできる集まりです。",
+    "tip": "予約不要で参加できます。会場は比々多保育園内なので、場所を事前に確認しておくと安心です。",
+    "url": "https://www.city.isehara.kanagawa.jp/kosodate-portal/docs/2024073000079/",
+    "source": "伊勢原市公式"
+  },
+  {
+    "id": "yamato-sirius-ninyushoku-koza-1127",
+    "title": "子育てハッピー講座「赤ちゃんの『食べたい！』を育む離乳食期のコツ」",
+    "category": "室内・学び",
+    "city": "大和市",
+    "venue": "大和市文化創造拠点シリウス 屋内こども広場",
+    "dates": [
+      "2026-11-27"
+    ],
+    "start": "2026-11-27",
+    "end": "2026-11-27",
+    "time": "10:00〜11:00",
+    "age": "離乳食期の赤ちゃんと保護者",
+    "ages": [
+      "baby"
+    ],
+    "free": false,
+    "fee": "500円（現金のみ）、保護者1人増えるごとに250円",
+    "reserve": "check",
+    "summary": "離乳食の進め方のコツを学べる、赤ちゃん連れ向けの講座です。",
+    "tip": "対象は離乳食期の赤ちゃんです。参加費は現金のみ対応なので当日持参してください。",
+    "url": "https://yamato-bunka.jp/plaza/event/",
+    "source": "大和市文化創造拠点シリウス公式"
   }
 ]
