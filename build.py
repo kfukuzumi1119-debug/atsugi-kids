@@ -277,6 +277,26 @@ def page(*, title, description, path, body, prefix, og_type="article", jsonld=No
 """
 
 
+AGGREGATORS = ("いこーよ", "厚木らぼ", "Yahoo", "X", "Instagram", "ことさが", "ウォーカー")
+
+
+def organizer_name(ev):
+    src = (ev.get("source") or "").strip()
+    if src and not any(a in src for a in AGGREGATORS):
+        return re.sub(r"(の)?公式(サイト|HP|ホームページ|X|Instagram)?$", "", src) or src
+    return ev.get("venue") or ev["city"]
+
+
+def lowest_yen(fee):
+    """料金の文から いちばん安い金額（円）を取り出す。「無料」があれば 0、金額がなければ None。"""
+    if not fee:
+        return None
+    nums = [int(n.replace(",", "")) for n in re.findall(r"(\d[\d,]*)\s*円", fee)]
+    if "無料" in fee:
+        nums.append(0)
+    return min(nums) if nums else None
+
+
 def event_jsonld(ev, today):
     m = re.match(r"^(\d{1,2}:\d{2})\s*〜\s*(\d{1,2}:\d{2})", ev.get("time") or "")
 
@@ -299,9 +319,16 @@ def event_jsonld(ev, today):
         "url": SITE + f"event/{file_id(ev)}.html",
         "image": [SITE + "og-image.jpg"],
     }
-    if ev.get("free") is True:
-        base["offers"] = {"@type": "Offer", "price": 0, "priceCurrency": "JPY",
-                          "availability": "https://schema.org/InStock", "url": base["url"]}
+    # 主催者: 出典が「○○公式」ならその名前、情報サイト（いこーよ など）のときは会場。出演者は決まっていないことが多いので主催者と同じにする
+    org = {"@type": "Organization", "name": organizer_name(ev), "url": ev.get("url") or base["url"]}
+    base["organizer"] = org
+    base["performer"] = {"@type": "Organization", "name": org["name"]}
+    offer = {"@type": "Offer", "priceCurrency": "JPY", "url": ev.get("url") or base["url"], "validFrom": today,
+             "availability": "https://schema.org/SoldOut" if ev.get("reserve") == "closed" else "https://schema.org/InStock"}
+    price = 0 if ev.get("free") is True else lowest_yen(ev.get("fee"))
+    if price is not None:
+        offer["price"] = price
+    base["offers"] = offer
     days = event_days(ev, today)
     if days:
         return [dict(base, startDate=iso(d, m and m.group(1)), endDate=iso(d, m and m.group(2))) for d in days[:8]]
