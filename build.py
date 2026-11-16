@@ -216,6 +216,8 @@ def page(*, title, description, path, body, prefix, og_type="article", jsonld=No
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<meta name="google-adsense-account" content="ca-pub-3965836277553422">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3965836277553422" crossorigin="anonymous"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
 <meta name="description" content="{e(description)}">
