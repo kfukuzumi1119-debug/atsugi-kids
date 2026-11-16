@@ -17,7 +17,7 @@ from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).parent
-SITE = "https://kfukuzumi1119-debug.github.io/atsugi-kids/"
+SITE = "https://kids.hibitool.com/"
 SITE_NAME = "週末子連れカレンダー 県央版"
 JST = timezone(timedelta(hours=9))
 

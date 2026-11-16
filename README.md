@@ -2,7 +2,7 @@
 
 厚木市周辺の子連れ向けイベントをまとめた Web サイトです。GitHub Pages で無料で公開しています。
 
-公開URL: https://kfukuzumi1119-debug.github.io/atsugi-kids/
+公開URL: https://kids.hibitool.com/
 
 ## ファイル構成
 
@@ -32,13 +32,13 @@
 ### 3. GitHub Pages を有効にする
 1. **Settings → Pages**
 2. 「Source」を **Deploy from a branch**、「Branch」を **main** と **/(root)** にして「Save」
-3. 数分後、https://kfukuzumi1119-debug.github.io/atsugi-kids/ で公開されます
+3. 数分後、https://kids.hibitool.com/ で公開されます
 
 ### 4. 運営者情報を書き換える
 `about.html` の「【ここに運営者名…】」「【ここにお問い合わせ先…】」を書き換える（GitHub の画面でファイルを開き、鉛筆マークから編集できます）。
 
 ### 5. Google Search Console に登録する
-1. https://search.google.com/search-console を開き、「URL プレフィックス」に `https://kfukuzumi1119-debug.github.io/atsugi-kids/` を入力
+1. https://search.google.com/search-console を開き、「URL プレフィックス」に `https://kids.hibitool.com/` を入力
 2. 確認方法で「HTML ファイル」を選び、渡される `google〇〇〇.html` をリポジトリにアップロードして「確認」
 3. 左メニュー「サイトマップ」で `sitemap.xml` を送信
 
