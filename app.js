@@ -134,7 +134,9 @@
   }
 
   // イベントページのファイル名（build.py の file_id と同じルール）
+  let pageIds = {};
   function fileId(ev) {
+    if (pageIds[ev.id]) return pageIds[ev.id];
     return String(ev.id).toLowerCase().replace(/[^a-z0-9-]/g, "-").replace(/^-+|-+$/g, "") || "event";
   }
 
@@ -209,12 +211,12 @@
   function render() {
     updateFilterCount();
     const list = document.getElementById("list");
-    list.replaceChildren();
-
+    // 読み込みが終わるまでは、HTML に最初から書いてある一覧（build.py が作る）をそのまま見せる
     if (!loaded) {
-      list.append(h("div", { class: "notice" }, "イベントを読み込んでいます…"));
+      if (!list.querySelector(".ev")) list.replaceChildren(h("div", { class: "notice" }, "イベントを読み込んでいます…"));
       return;
     }
+    list.replaceChildren();
 
     const [from, to] = windowFor(state.range);
     const byDay = new Map();
@@ -448,8 +450,10 @@
       return r.json();
     }),
     fetch("data/meta.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+    fetch("data/pages.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : {})).catch(() => ({})),
   ])
-    .then(([evs, m]) => {
+    .then(([evs, m, pg]) => {
+      pageIds = pg || {};
       events = Array.isArray(evs) ? evs : [];
       meta = m;
       loaded = true;

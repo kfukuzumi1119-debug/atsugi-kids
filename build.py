@@ -2,14 +2,19 @@
 
 作るもの:
   area/<市町村>.html    市町村ごとのイベント一覧
-  event/<id>.html       イベントごとのページ
+  event/<id>.html       イベントごとのページ（id の末尾の年・日付は外して、毎年同じ URL にする）
+                        終わったイベントも data/archive.json に残し、「今年は終了」のページとして残す
+  venue/<slug>.html     施設ごとの子連れガイド（data/venues.json：駐車場・ベビーカー・授乳室・食事など）
   feature/<slug>.html   特集ページ（data/features.json で定義）
-  sitemap.xml
-  index.html の「エリア・特集から探す」の部分（BUILD:EXPLORE の印の間）
+  sitemap.xml           lastmod は中身が変わったページだけ更新する（data/lastmod.json に記録）
+  data/pages.json       イベント id → ページのファイル名（app.js が使う）
+  index.html の「エリア・特集から探す」の部分（BUILD:EXPLORE の印の間）と、
+             JavaScript なしでも読める最初のイベント一覧（BUILD:LIST の印の間）・件数の行
 
 使い方: python build.py   （Python 3.8 以上、追加のライブラリは不要）
 """
 
+import hashlib
 import html
 import json
 import re
@@ -124,8 +129,56 @@ def safe_url(u):
     return u if isinstance(u, str) and u.startswith("https://") else None
 
 
+def raw_file_id(raw):
+    return re.sub(r"[^a-z0-9-]", "-", raw.lower()).strip("-") or "event"
+
+
+def stable_id(raw):
+    """id の末尾の年・年月・日付（-2026 / -202610 / -1105 など）を外す。毎年・毎月あるイベントが同じ URL になる。"""
+    s = raw_file_id(raw)
+    t = re.sub(r"-(?:20\d{2}(?:\d{2}){0,2}|\d{4})$", "", s)
+    return t or s
+
+
+PAGE_ID = {}   # イベント id → ページのファイル名（main で決める）
+VENUES = []    # data/venues.json
+
+
 def file_id(ev):
-    return re.sub(r"[^a-z0-9-]", "-", ev["id"].lower()).strip("-") or "event"
+    return PAGE_ID.get(ev["id"]) or stable_id(ev["id"])
+
+
+def venue_of(ev):
+    text = (ev.get("venue") or "") + " " + ev.get("title", "")
+    for v in VENUES:
+        if any(m in text for m in v["match"]):
+            return v
+    return None
+
+
+def period_label(ev, today):
+    """タイトル用の開催日。更新日と見まちがえないよう、期間イベントは開始〜終了を出す。"""
+    days = event_days(ev, today)
+    if days:
+        return "・".join(md(d) for d in days[:2]) + ("ほか" if len(days) > 2 else "")
+    return f"{md(ev['start'])}〜{md(ev['end'])}"
+
+
+def guide_html(v, prefix, title=None):
+    rows = [("駐車場", v.get("parking")), ("ベビーカー", v.get("stroller")), ("授乳・おむつ替え", v.get("baby")),
+            ("食事", v.get("food")), ("何歳くらいから", v.get("age")), ("行き方", v.get("access")), ("休み", v.get("closed"))]
+    dl = "".join(f"<dt>{e(k)}</dt><dd>{e(val)}</dd>" for k, val in rows if val)
+    src = "・".join(f'<a href="{e(u)}" target="_blank" rel="noopener">{i + 1}</a>' for i, u in enumerate(v.get("sources") or []))
+    ck = (v.get("checked") or "").split("-")
+    when = f"{int(ck[0])}年{int(ck[1])}月" if len(ck) == 2 else ""
+    head = title or f"親目線ガイド：{v['name']}に行くとき"
+    link = f'<p class="more"><a href="{prefix}venue/{v["slug"]}.html">{e(v["name"])}の子連れガイドとイベントを見る →</a></p>' if title is None else ""
+    return f"""<section class="guide">
+    <h2>{e(head)}</h2>
+    <dl class="guide-list">{dl}</dl>
+    <p class="guide-src">{when}に、公式サイトや観光案内などの公開情報をもとに編集部がまとめました（参考: {src}）。料金や設備は変わることがあるので、お出かけ前に施設へ確かめてください。</p>
+    {link}
+  </section>"""
 
 
 def event_href(ev, prefix):
@@ -375,9 +428,18 @@ def weekend_of(today):
 
 # ---------- 各ページ ----------
 
-def build_event_page(ev, events, today, updated):
+def ended_when(ev):
+    if ev.get("dates"):
+        y = ev["dates"][0][:4]
+        return f"{int(y)}年は" + "・".join(md(d) for d in ev["dates"]) + "に開かれました"
+    return f"{int(ev['start'][:4])}年は{md(ev['start'])}〜{md(ev['end'])}に開かれました"
+
+
+def build_event_page(ev, events, today, updated, ended=False):
     prefix = "../"
     slug = CITY_SLUG.get(ev["city"])
+    if ended:
+        return build_ended_page(ev, events, today, updated)
     rows = [("いつ", when_full(ev, today))]
     if ev.get("time"):
         rows.append(("時間", ev["time"]))
@@ -425,10 +487,10 @@ def build_event_page(ev, events, today, updated):
     <div class="links">{"".join(links)}</div>
     <p class="note">{md(updated)} 時点の情報です。日時や内容は変わることがあるので、お出かけ前に公式ページで確認してください。</p>
   </main>
+  {guide_html(venue_of(ev), prefix) if venue_of(ev) else ""}
   {related_html}"""
 
-    first = first_day(ev, today)
-    title = f"{ev['title']}（{md(first)}・{ev['city']}）｜{SITE_NAME}"
+    title = f"{ev['title']}（{period_label(ev, today)}・{ev['city']}）｜{SITE_NAME}"
     desc_src = " ".join(x for x in [f"{ev['city']}で{when_full(ev, today)}に開かれる子連れ向けイベント。", ev.get("summary"), ev.get("tip")] if x)
     crumbs = [("トップ", "")]
     if slug:
@@ -436,6 +498,113 @@ def build_event_page(ev, events, today, updated):
     crumbs.append((ev["title"], f"event/{file_id(ev)}.html"))
     return page(title=title, description=desc_src[:120], path=f"event/{file_id(ev)}.html", body=body,
                 prefix=prefix, jsonld=event_jsonld(ev, today), crumbs=crumbs)
+
+
+def related_list(items, prefix, today, heading, more=""):
+    if not items:
+        return ""
+    lis = "\n".join(
+        f'<li><a href="{event_href(x, prefix)}">{e(x["title"])}</a><span class="when">{e(mdw(first_day(x, today)))}{"" if x.get("dates") else "〜"}</span></li>'
+        for x in items[:8])
+    return f"""<section class="related">
+    <h2>{e(heading)}</h2>
+    <ul>{lis}</ul>
+    {more}
+  </section>"""
+
+
+def build_ended_page(ev, events, today, updated):
+    """終わったイベントのページ。URL を残して評価を積み上げ、次に開かれるときは同じ URL で更新する。"""
+    prefix = "../"
+    slug = CITY_SLUG.get(ev["city"])
+    v = venue_of(ev)
+    rows = [("前回", ended_when(ev)), ("場所", ev.get("venue") or ""), ("市町村", ev["city"])]
+    if ev.get("age"):
+        rows.append(("対象", ev["age"]))
+    if ev.get("fee"):
+        rows.append(("料金（前回）", ev["fee"]))
+    table = "\n".join(f"<tr><th>{e(k)}</th><td>{e(val)}</td></tr>" for k, val in rows)
+    link = ""
+    if safe_url(ev.get("url")):
+        link = f'<div class="links"><a class="official" href="{e(ev["url"])}" target="_blank" rel="noopener">主催者のページ（{e(ev.get("source") or "公式")}）↗</a></div>'
+    same_place = [x for x in events if v and venue_of(x) is v]
+    same_city = [x for x in events if x["city"] == ev["city"] and x not in same_place]
+    same_city.sort(key=lambda x: first_day(x, today))
+    more = f'<p class="more"><a href="{prefix}area/{slug}.html">{e(ev["city"])}のイベントをすべて見る →</a></p>' if slug else ""
+    body = f"""  <main class="page event-page">
+    <p class="eyebrow">{e(ev.get("category") or "イベント")}｜{e(ev["city"])}</p>
+    <h1>{e(ev["title"])}</h1>
+    <p class="notice ended">このイベントは終わりました（{e(ended_when(ev))}）。同じイベントがまた開かれるときは、このページで日程をお知らせします。</p>
+    {f'<p class="tip"><b>子連れポイント</b>{e(ev["tip"])}</p>' if ev.get("tip") else ""}
+    {f'<p class="lead">{e(ev["summary"])}</p>' if ev.get("summary") else ""}
+    <table class="info">{table}</table>
+    {link}
+  </main>
+  {guide_html(v, prefix) if v else ""}
+  {related_list(same_place, prefix, today, f"{v['name']}で開かれるイベント") if v else ""}
+  {related_list(same_city, prefix, today, f"いま{ev['city']}で開かれている子連れイベント", more)}"""
+    title = f"{ev['title']}（{ev['city']}）前回の開催と子連れで行くポイント｜{SITE_NAME}"
+    desc = " ".join(x for x in [f"{ev['city']}の子連れ向けイベント「{ev['title']}」。{ended_when(ev)}。", ev.get("tip")] if x)
+    crumbs = [("トップ", "")]
+    if slug:
+        crumbs.append((f"{ev['city']}のイベント", f"area/{slug}.html"))
+    crumbs.append((ev["title"], f"event/{file_id(ev)}.html"))
+    return page(title=title, description=desc[:120], path=f"event/{file_id(ev)}.html", body=body, prefix=prefix, crumbs=crumbs)
+
+
+def build_venue_page(v, events, archived, today, updated):
+    prefix = "../"
+    now = [x for x in events if venue_of(x) is v]
+    past = [x for x in archived if venue_of(x) is v]
+    if now:
+        cards = "\n".join(card(x, prefix, today=today) for x in now)
+        now_html = f'<section class="group"><h2 class="group-title">いま予定されているイベント</h2><div class="cards">{cards}</div></section>'
+    else:
+        now_html = f'<p class="notice">いまのところ、{e(v["name"])}で予定されている子連れイベントは見つかっていません。毎週金曜日に更新しています。</p>'
+    past_html = ""
+    if past:
+        lis = "".join(f'<li><a href="{event_href(x, prefix)}">{e(x["title"])}</a><span class="when">{e(ended_when(x))}</span></li>' for x in past[:12])
+        past_html = f'<section class="related"><h2>これまでに開かれたイベント</h2><ul>{lis}</ul></section>'
+    slug = CITY_SLUG.get(v["city"])
+    area = f'<p class="more"><a href="{prefix}area/{slug}.html">{e(v["city"])}のイベントをすべて見る →</a></p>' if slug else ""
+    kind = "屋内" if v.get("indoor") else "屋外"
+    body = f"""  <header class="cover">
+    <p class="eyebrow">施設ガイド｜{e(v["city"])}｜{kind}</p>
+    <h1>{e(v["name"])}<span class="h1-sub">子連れで行くときのガイドとイベント</span></h1>
+    <p class="intro">{e(v["name"])}に子どもと出かけるときに知っておきたい、駐車場・ベビーカー・授乳室・食事のことをまとめました。下には、ここで開かれるイベントを載せています。</p>
+  </header>
+  {guide_html(v, prefix, title="子連れで行くときに知っておきたいこと")}
+  <main class="list-page">
+{now_html}
+  </main>
+  {past_html}
+  <section class="explore">{area}</section>"""
+    title = f"{v['name']}の子連れガイド（駐車場・授乳室・ベビーカー）とイベント｜{SITE_NAME}"
+    desc = " ".join(x for x in [f"{v['name']}（{v['city']}）に子連れで行くときの駐車場・ベビーカー・授乳室・食事のまとめと、ここで開かれる子ども向けイベント。", v.get("parking")] if x)
+    crumbs = [("トップ", ""), (v["name"], f"venue/{v['slug']}.html")]
+    return page(title=title, description=desc[:120], path=f"venue/{v['slug']}.html", body=body, prefix=prefix,
+                og_type="website", crumbs=crumbs)
+
+
+def venue_chips(prefix, only=None):
+    vs = [v for v in VENUES if only is None or v.get("indoor") == (only == "indoor")]
+    return " ".join(f'<a class="chip-link" href="{prefix}venue/{v["slug"]}.html">{e(v["name"])}</a>' for v in vs)
+
+
+def build_top_list(events, today, n=12):
+    """JavaScript を使わなくても読める、トップの最初の一覧（app.js が読み込んだあと絞り込みつきの一覧に置きかえる）。"""
+    items = events[:n]
+    cards = "\n".join(card(x, "", today=today) for x in items)
+    ld = {"@context": "https://schema.org", "@type": "ItemList",
+          "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": SITE + f"event/{file_id(x)}.html", "name": x["title"]}
+                              for i, x in enumerate(items)]}
+    data = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
+    return f"""<section class="group">
+  <h2 class="group-title">近日開かれるイベント</h2>
+  <div class="cards">{cards}</div>
+  <p class="more">ほかに{max(0, len(events) - n)}件あります。期間や年齢で絞り込むには、このページを JavaScript が使えるブラウザで開いてください。エリア別・特集のページからも探せます。</p>
+</section>
+<script type="application/ld+json">{data}</script>"""
 
 
 def build_area_page(city, slug, events, today, updated, range_end):
@@ -511,6 +680,14 @@ def build_feature_page(ft, events, today, updated, range_end):
     if ft.get("points"):
         items = "".join(f"<li>{e(p)}</li>" for p in ft["points"])
         tips = f'<section class="feature-points"><h2>{e(ft.get("pointsTitle") or "子連れで行くときのポイント")}</h2><ul>{items}</ul></section>'
+    # イベントが入れ替わっても残る中身：特集に合う施設のガイド（雨の日なら屋内の施設）
+    venues = ""
+    if ft.get("venues"):
+        vs = [v for v in VENUES if v.get("indoor") == (ft["venues"] == "indoor")]
+        lis = "".join(
+            f'<li><a href="{prefix}venue/{v["slug"]}.html">{e(v["name"])}</a>（{e(v["city"])}）<span>{e(" ".join(x for x in [v.get("parking"), v.get("baby")] if x))}</span></li>'
+            for v in vs)
+        venues = f'<section class="feature-venues"><h2>{e(ft.get("venuesTitle") or "子連れで行きやすい施設")}</h2><ul>{lis}</ul></section>'
     body = f"""  <header class="cover">
     <p class="eyebrow">特集</p>
     <h1>{e(ft["h1"])}</h1>
@@ -518,6 +695,7 @@ def build_feature_page(ft, events, today, updated, range_end):
     <p class="meta">{md(updated)} 更新　／　{len(matched)}件掲載</p>
   </header>
   {tips}
+  {venues}
   <main class="list-page">
 {list_html}
   </main>"""
@@ -540,6 +718,8 @@ def build_explore(events, feature_counts):
       <div class="chip-links">{city_links}</div>
       <h2 id="tokushu">特集からさがす</h2>
       <div class="chip-links">{feats}</div>
+      <h2 id="shisetsu">施設の子連れガイド（駐車場・授乳室・ベビーカー）</h2>
+      <div class="chip-links">{venue_chips("")}</div>
     </section>"""
 
 
@@ -554,46 +734,122 @@ def main():
     updated_global[0] = updated
     range_end = meta.get("rangeEnd") or (d_of(today) + timedelta(days=35)).isoformat()
 
+    VENUES[:] = json.loads((ROOT / "data/venues.json").read_text(encoding="utf-8"))
+    archive_path = ROOT / "data/archive.json"
+    archive = json.loads(archive_path.read_text(encoding="utf-8")) if archive_path.exists() else {}
+
     events = [x for x in events if x.get("id") and x.get("title") and x.get("start") and x.get("end") and is_upcoming(x, today)]
     events.sort(key=lambda x: (first_day(x, today), x["id"]))
 
-    # 前回作ったページを消してから作り直す（終わったイベントのページを残さないため）
-    for sub in ("area", "event", "feature"):
+    # ページのファイル名を決める。年・日付を外した名前が同時に2つ出たら、あとのほうは元の id のまま
+    PAGE_ID.clear()
+    used = set()
+    for ev in events:
+        sid = stable_id(ev["id"])
+        if sid in used:
+            sid = raw_file_id(ev["id"])
+        used.add(sid)
+        PAGE_ID[ev["id"]] = sid
+
+    # 終わったイベントも残す（archive.json）。次に同じ名前のイベントが来たら、同じ URL で更新される
+    for ev in events:
+        sid = PAGE_ID[ev["id"]]
+        old = archive.get(sid, {})
+        aliases = sorted(set(old.get("aliases", [])) | {raw_file_id(ev["id"])})
+        archive[sid] = {"ev": ev, "aliases": aliases}
+    keep_from = (d_of(today) - timedelta(days=400)).isoformat()
+    archive = {k: a for k, a in archive.items() if a["ev"].get("end", "") >= keep_from}
+    archived = []
+    for sid, a in sorted(archive.items(), key=lambda kv: kv[1]["ev"].get("end", ""), reverse=True):
+        if sid in used:
+            continue
+        ev = dict(a["ev"])
+        PAGE_ID[ev["id"]] = sid
+        archived.append(ev)
+    archive_path.write_text(json.dumps(archive, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    (ROOT / "data/pages.json").write_text(json.dumps({ev["id"]: PAGE_ID[ev["id"]] for ev in events}, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    # 前回作ったページを消してから作り直す
+    for sub in ("area", "event", "feature", "venue"):
         (ROOT / sub).mkdir(exist_ok=True)
         for old in (ROOT / sub).glob("*.html"):
             old.unlink()
 
     urls = ["", "about.html", "privacy.html"]
+    pages = {}   # パス → 中身（lastmod を決めるのに使う）
 
     for ev in events:
-        (ROOT / "event" / f"{file_id(ev)}.html").write_text(build_event_page(ev, events, today, updated), encoding="utf-8")
-        urls.append(f"event/{file_id(ev)}.html")
+        pages[f"event/{file_id(ev)}.html"] = build_event_page(ev, events, today, updated)
+    for ev in archived:
+        pages[f"event/{file_id(ev)}.html"] = build_event_page(ev, events, today, updated, ended=True)
+    for path, text in pages.items():
+        (ROOT / path).write_text(text, encoding="utf-8")
+        urls.append(path)
+
+    # 前の URL（年つき）から新しい URL へ案内する小さなページ（検索エンジンには canonical で伝える）
+    for sid, a in archive.items():
+        for alias in a.get("aliases", []):
+            if alias != sid and f"event/{alias}.html" not in pages:
+                target = f"{SITE}event/{sid}.html"
+                (ROOT / "event" / f"{alias}.html").write_text(
+                    f'<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>移動しました</title>'
+                    f'<link rel="canonical" href="{target}"><meta name="robots" content="noindex">'
+                    f'<meta http-equiv="refresh" content="0; url={sid}.html"></head>'
+                    f'<body><p><a href="{sid}.html">このページは移動しました</a></p></body></html>\n', encoding="utf-8")
+
+    for v in VENUES:
+        path = f"venue/{v['slug']}.html"
+        pages[path] = build_venue_page(v, events, archived, today, updated)
+        (ROOT / path).write_text(pages[path], encoding="utf-8")
+        urls.append(path)
 
     for city, slug in CITIES:
-        (ROOT / "area" / f"{slug}.html").write_text(build_area_page(city, slug, events, today, updated, range_end), encoding="utf-8")
-        urls.append(f"area/{slug}.html")
+        path = f"area/{slug}.html"
+        pages[path] = build_area_page(city, slug, events, today, updated, range_end)
+        (ROOT / path).write_text(pages[path], encoding="utf-8")
+        urls.append(path)
 
     feature_counts = []
     for ft in features:
         text, n = build_feature_page(ft, events, today, updated, range_end)
-        (ROOT / "feature" / f"{ft['slug']}.html").write_text(text, encoding="utf-8")
-        urls.append(f"feature/{ft['slug']}.html")
+        path = f"feature/{ft['slug']}.html"
+        pages[path] = text
+        (ROOT / path).write_text(text, encoding="utf-8")
+        urls.append(path)
         feature_counts.append((ft["slug"], ft["label"], n, n > 0 or not ft.get("hideWhenEmpty")))
 
     index_path = ROOT / "index.html"
     index = index_path.read_text(encoding="utf-8")
-    new_index = re.sub(r"(<!-- BUILD:EXPLORE -->).*?(<!-- /BUILD:EXPLORE -->)",
-                       lambda m: m.group(1) + "\n    " + build_explore(events, feature_counts) + "\n    " + m.group(2),
-                       index, flags=re.S)
-    index_path.write_text(new_index, encoding="utf-8")
+    index = re.sub(r"(<!-- BUILD:EXPLORE -->).*?(<!-- /BUILD:EXPLORE -->)",
+                   lambda m: m.group(1) + "\n    " + build_explore(events, feature_counts) + "\n    " + m.group(2),
+                   index, flags=re.S)
+    index = re.sub(r"(<!-- BUILD:LIST -->).*?(<!-- /BUILD:LIST -->)",
+                   lambda m: m.group(1) + "\n" + build_top_list(events, today) + "\n" + m.group(2), index, flags=re.S)
+    index = re.sub(r'(<p class="meta" id="meta">).*?(</p>)',
+                   lambda m: m.group(1) + f"{md(updated)} 更新　／　{md(range_end)}までの情報　／　{len(events)}件掲載" + m.group(2), index)
+    index_path.write_text(index, encoding="utf-8")
+    for fixed in ("about.html", "privacy.html"):
+        pages[fixed] = (ROOT / fixed).read_text(encoding="utf-8")
+    pages[""] = index
+
+    # lastmod: 中身が変わったページだけ日付を進める（更新日・確認日など毎回変わる文字は比べない）
+    lm_path = ROOT / "data/lastmod.json"
+    lastmod = json.loads(lm_path.read_text(encoding="utf-8")) if lm_path.exists() else {}
+    volatile = re.compile(r'\d{1,2}/\d{1,2}\s*(?:時点|更新|までの情報)|\d{1,2}月\d{1,2}日更新号|"validFrom": "[^"]*"|（今週末・\d{1,2}月〜）')
+    new_lm = {}
+    for u in urls:
+        h = hashlib.sha1(volatile.sub("", pages.get(u, "")).encode("utf-8")).hexdigest()[:16]
+        prev = lastmod.get(u)
+        new_lm[u] = prev if prev and prev[0] == h else [h, today]
+    lm_path.write_text(json.dumps(new_lm, ensure_ascii=False, indent=0) + "\n", encoding="utf-8")
 
     sitemap = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for u in urls:
-        sitemap.append(f"  <url><loc>{SITE}{u}</loc><lastmod>{updated}</lastmod></url>")
+        sitemap.append(f"  <url><loc>{SITE}{u}</loc><lastmod>{new_lm[u][1]}</lastmod></url>")
     sitemap.append("</urlset>")
     (ROOT / "sitemap.xml").write_text("\n".join(sitemap) + "\n", encoding="utf-8")
 
-    print(f"イベント {len(events)} ページ、市町村 {len(CITIES)} ページ、特集 {len(features)} ページを作りました（{today}）")
+    print(f"イベント {len(events)} ページ（終了 {len(archived)}）、施設 {len(VENUES)}、市町村 {len(CITIES)}、特集 {len(features)} ページを作りました（{today}）")
 
 
 if __name__ == "__main__":
